@@ -55,11 +55,11 @@ export default function DashboardPage() {
         scoresAPI.list(), charitiesAPI.list(), drawsAPI.current(),
         winnersAPI.my(), subscriptionsAPI.contributions(), subscriptionsAPI.status(),
       ]);
-      if (sc.status === 'fulfilled') setScores(sc.value.data.scores);
-      if (ch.status === 'fulfilled') setCharities(ch.value.data.charities);
+      if (sc.status === 'fulfilled' && Array.isArray(sc.value.data.scores)) setScores(sc.value.data.scores);
+      if (ch.status === 'fulfilled' && Array.isArray(ch.value.data.charities)) setCharities(ch.value.data.charities);
       if (dr.status === 'fulfilled') setDrawData(dr.value.data);
-      if (wi.status === 'fulfilled') setWinnings(wi.value.data.winners);
-      if (ct.status === 'fulfilled') setContributions(ct.value.data.contributions);
+      if (wi.status === 'fulfilled' && Array.isArray(wi.value.data.winners)) setWinnings(wi.value.data.winners);
+      if (ct.status === 'fulfilled' && Array.isArray(ct.value.data.contributions)) setContributions(ct.value.data.contributions);
       if (sub.status === 'fulfilled') setSubStatus(sub.value.data);
     } finally { setLoading(false); }
   }

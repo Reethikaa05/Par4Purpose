@@ -13,7 +13,12 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('gg_token');
     if (token) {
       authAPI.me()
-        .then(res => { setUser(res.data.user); localStorage.setItem('gg_user', JSON.stringify(res.data.user)); })
+        .then(res => { 
+          if (res.data.user && typeof res.data.user === 'object') {
+            setUser(res.data.user); 
+            localStorage.setItem('gg_user', JSON.stringify(res.data.user)); 
+          }
+        })
         .catch(() => { localStorage.removeItem('gg_token'); localStorage.removeItem('gg_user'); setUser(null); })
         .finally(() => setLoading(false));
     } else {

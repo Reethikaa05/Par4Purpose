@@ -7,12 +7,6 @@ module.exports = async (req, res) => {
     return app(req, res);
   } catch (err) {
     console.error('API Error:', err);
-    res.status(500).json({ 
-      error: 'Initialization failed', 
-      message: err.message,
-      stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-      path: __dirname,
-      cwd: process.cwd()
-    });
+    res.status(500).send(`API Initialization Failed: ${err.message}`);
   }
 };
