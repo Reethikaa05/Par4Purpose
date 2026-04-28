@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { charitiesAPI } from '../lib/api.js';
+import { charitiesAPI, resolveImageUrl } from '../lib/api.js';
 import AuthModal from '../components/AuthModal.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
@@ -119,7 +119,7 @@ export default function HomePage() {
               <div key={c.id} className="charity-card">
                 <div className="charity-thumb" style={{ background: c.image_url ? 'transparent' : `hsl(${c.id * 55}, 18%, 94%)`, overflow: 'hidden' }}>
                   {c.image_url ? (
-                    <img src={c.image_url} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={resolveImageUrl(c.image_url)} alt={c.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                   ) : (
                     <span style={{ fontSize: 48 }}>{c.emoji || '💚'}</span>
                   )}
@@ -141,14 +141,14 @@ export default function HomePage() {
             <div className="spotlight">
               {charities.find(c => c.is_featured)?.image_url && (
                 <div style={{ position: 'absolute', inset: 0, opacity: 0.15, zIndex: 0 }}>
-                  <img src={charities.find(c => c.is_featured)?.image_url} alt="featured" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={resolveImageUrl(charities.find(c => c.is_featured)?.image_url)} alt="featured" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 </div>
               )}
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <div style={{ fontSize: 11, letterSpacing: 3, textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)', marginBottom: 8 }}>Featured Charity This Month</div>
                 <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 700, marginBottom: 8 }}>
                   {charities.find(c => c.is_featured)?.image_url ? (
-                    <img src={charities.find(c => c.is_featured)?.image_url} alt="featured" style={{ height: 44, marginRight: 12, borderRadius: 4, objectFit: 'cover', display: 'inline-block', verticalAlign: 'middle' }} />
+                    <img src={resolveImageUrl(charities.find(c => c.is_featured)?.image_url)} alt="featured" style={{ height: 44, marginRight: 12, borderRadius: 4, objectFit: 'cover', display: 'inline-block', verticalAlign: 'middle' }} />
                   ) : (
                     <span style={{ marginRight: 12 }}>{charities.find(c => c.is_featured)?.emoji || '💚'}</span>
                   )}

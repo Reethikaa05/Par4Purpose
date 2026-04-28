@@ -5,7 +5,7 @@ const initSqlJs = require('sql.js');
 const fs = require('fs');
 const path = require('path');
 
-const DB_PATH = path.resolve(process.env.DB_PATH || './golfgives.db');
+const DB_PATH = process.env.DB_PATH ? path.resolve(process.env.DB_PATH) : path.join(__dirname, '../../golfgives.db');
 
 let _db = null;
 let _SQL = null;

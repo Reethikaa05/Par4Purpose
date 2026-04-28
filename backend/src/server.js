@@ -53,11 +53,13 @@ app.use((err, req, res, next) => {
 });
 
 const { initPromise } = require('./db/database');
-initPromise.then(() => {
-  app.listen(PORT, () => {
-    console.log(`\n🏌️  GolfGives API running on http://localhost:${PORT}`);
-    console.log(`📚  Health: http://localhost:${PORT}/api/health\n`);
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  initPromise.then(() => {
+    app.listen(PORT, () => {
+      console.log(`\n🏌️  GolfGives API running on http://localhost:${PORT}`);
+      console.log(`📚  Health: http://localhost:${PORT}/api/health\n`);
+    });
   });
-});
+}
 
 module.exports = app;
