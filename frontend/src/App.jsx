@@ -5,7 +5,6 @@ import HomePage from './pages/HomePage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
 import AdminPage from './pages/AdminPage.jsx';
 import CharitiesPage from './pages/CharitiesPage.jsx';
-import ErrorBoundary from './components/ErrorBoundary.jsx';
 
 function PrivateRoute({ children, adminOnly = false }) {
   const { user, loading } = useAuth();
@@ -17,7 +16,7 @@ function PrivateRoute({ children, adminOnly = false }) {
 
 export default function App() {
   return (
-    <ErrorBoundary>
+    <>
       <Navbar />
       <main style={{ marginTop: 64, flex: 1 }}>
         <Routes>
@@ -28,7 +27,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-    </ErrorBoundary>
+    </>
   );
 }
 
