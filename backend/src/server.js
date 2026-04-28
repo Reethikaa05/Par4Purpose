@@ -35,6 +35,14 @@ app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 
+// Health check
+app.get('/api/health', (req, res) => res.json({ 
+  status: 'ok', 
+  message: 'Backend is connected',
+  time: new Date().toISOString(),
+  vercel: !!process.env.VERCEL
+}));
+
 // Rate limiting
 app.use('/api/auth', rateLimit({ windowMs: 15 * 60 * 1000, max: 20, message: { error: 'Too many requests' } }));
 app.use('/api', rateLimit({ windowMs: 60 * 1000, max: 200, message: { error: 'Too many requests' } }));
