@@ -10,16 +10,27 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Ensure uploads dir exists
-const uploadDir = path.resolve(process.env.UPLOAD_DIR || './uploads');
-if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+// Ensure uploads dir exists (use /tmp on Vercel as it's the only writable directory)
+const uploadDir = process.env.VERCEL 
+  ? path.join('/tmp', 'uploads')
+  : path.resolve(process.env.UPLOAD_DIR || './uploads');
+
+try {
+  if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+} catch (err) {
+  console.warn('Failed to create upload directory:', err.message);
+}
 
 // Security & middleware
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({
-  origin: [process.env.FRONTEND_URL || 'http://localhost:5173', 'http://localhost:3000'],
+  origin: true,
   credentials: true,
 }));
+
+const JWT_SECRET = process.env.JWT_SECRET || 'golfgives-dev-secret-key-12345';
+process.env.JWT_SECRET = JWT_SECRET;
+
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));

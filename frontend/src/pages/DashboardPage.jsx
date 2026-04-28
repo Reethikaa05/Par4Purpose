@@ -199,7 +199,7 @@ export default function DashboardPage() {
                         <div key={s.id} className="score-bar-item">
                           <div className="score-bar-val" style={{ fontSize: 12, fontWeight: 700 }}>{s.value}</div>
                           <div className="score-bar-fill" style={{ height: `${(s.value / 45) * 90}px`, background: `hsl(${130 + s.value * 2}, 45%, 42%)` }} />
-                          <div className="score-bar-date" style={{ fontSize: 10, color: 'var(--mist)' }}>{s.date?.slice(5)}</div>
+                          <div className="score-bar-date" style={{ fontSize: 10, color: 'var(--mist)' }}>{s.date?.slice(5) || ''}</div>
                         </div>
                       ))}
                     </div>
