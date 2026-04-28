@@ -1,0 +1,17 @@
+{
+  "name": "golfgives",
+  "version": "1.0.0",
+  "description": "GolfGives — Full Stack Golf Platform",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "setup": "npm run install:all && npm run migrate && npm run seed",
+    "migrate": "node backend/src/db/migrate.js",
+    "seed": "node backend/src/db/seed.js",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "start:backend": "npm start --prefix backend",
+    "start:frontend": "npm run preview --prefix frontend",
+    "build:frontend": "npm run build --prefix frontend"
+  },
+  "private": true
+}
