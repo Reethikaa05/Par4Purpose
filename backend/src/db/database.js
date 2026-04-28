@@ -17,7 +17,9 @@ let _ready = false;
 
 async function init() {
   console.log('[DB] Initializing with path:', DB_PATH);
-  _SQL = await initSqlJs();
+  _SQL = await initSqlJs({
+    locateFile: file => `https://sql.js.org/dist/${file}`
+  });
   
   try {
     const filebuffer = fs.readFileSync(DB_PATH);
