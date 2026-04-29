@@ -72,12 +72,22 @@ app.use((err, req, res, next) => {
 });
 
 const { initPromise } = require('./db/database');
-if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
-  initPromise.then(() => {
-    app.listen(PORT, () => {
-      console.log(`\n🏌️  GolfGives API running on http://localhost:${PORT}`);
+
+// Always start the server, but only log locally if not in production/Vercel
+initPromise.then(() => {
+  app.listen(PORT, () => {
+    const env = process.env.VERCEL ? 'Vercel' : (process.env.NODE_ENV || 'development');
+    console.log(`\n🏌️  GolfGives API running on port ${PORT} (${env})`);
+    if (env === 'development') {
       console.log(`📚  Health: http://localhost:${PORT}/api/health\n`);
-    });
+    }
+  });
+}).catch(err => {
+  console.error('Failed to initialize database:', err);
+  process.exit(1);
+});
+
+module.exports = app;
   });
 }
 
