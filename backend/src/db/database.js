@@ -88,9 +88,12 @@ function init() {
     console.log('[DB] Created directory:', dbDir);
   }
   
+  console.log('[DB] Attempting to open database at:', DB_PATH);
   _db = new Database(DB_PATH);
+  console.log('[DB] Database opened successfully');
 
   // Check if tables exist, if not run migrations
+  console.log('[DB] Checking for existing tables...');
   const tables = _db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
   const tableNames = tables.map(t => t.name);
   
@@ -105,10 +108,12 @@ function init() {
 // Exported promise so server waits for DB init before listening
 const initPromise = new Promise((resolve, reject) => {
   try {
+    console.log('[DB] Starting async initialization...');
     init();
+    console.log('[DB] Async initialization complete');
     resolve();
   } catch (err) {
-    console.error('DB init failed:', err);
+    console.error('[DB] Async initialization failed:', err);
     reject(err);
   }
 });
