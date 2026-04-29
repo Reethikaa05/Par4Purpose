@@ -8,6 +8,7 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
+app.set('trust proxy', 1); // Trust Render proxy for rate limiting
 const PORT = process.env.PORT || 5000;
 
 // Ensure uploads dir exists (use /tmp on Vercel as it's the only writable directory)
