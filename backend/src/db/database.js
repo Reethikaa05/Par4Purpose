@@ -8,12 +8,20 @@ const path = require('path');
 // Use project root-relative path for Vercel compatibility
 const DB_PATH = process.env.DB_PATH
   ? path.resolve(process.env.DB_PATH)
-  : path.resolve(process.cwd(), 'backend/golfgives.db');
+  : path.join(process.cwd(), 'golfgives.db');
 
 let _db = null;
 
 function init() {
   console.log('[DB] Initializing with path:', DB_PATH);
+  
+  // Ensure the directory exists
+  const dbDir = path.dirname(DB_PATH);
+  if (!fs.existsSync(dbDir)) {
+    fs.mkdirSync(dbDir, { recursive: true });
+    console.log('[DB] Created directory:', dbDir);
+  }
+  
   _db = new Database(DB_PATH);
 
   const tables = _db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
